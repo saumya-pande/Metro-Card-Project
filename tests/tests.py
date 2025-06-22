@@ -3,10 +3,7 @@ from src.repository import *
 from src.MetroCard import MetroCard
 from src.service import *
 
-
-
 # fixtures
-
 @pytest.fixture(autouse=True)
 def reset() :
     metroCard.clear()
@@ -21,17 +18,13 @@ def rate() :
     }
     return rates
 
-
 @pytest.fixture
 def  station_central() :
     return stations['CENTRAL']
 
-
-
 @pytest.fixture
 def station_airport() :
     return  stations['AIRPORT']
-
 
 @pytest.fixture
 def new_card():
@@ -46,11 +39,9 @@ def test_balance() :
     assert   "MC123" in metroCard
     assert  metroCard["MC123"].balance == 500
 
-
-
-def test_rechargeCard(new_card, station_central):
+def test_recharge_card(new_card, station_central):
     card = new_card("MC2", 100)
-    rechargeCard(card, 200, "CENTRAL")
+    recharge(card, 200, "CENTRAL")
 
     assert card.balance == 300
     assert station_central.total_amount == 4
@@ -71,7 +62,7 @@ def test_check_in_round_trip(new_card, station_airport , station_central):
 
 
     check_in("MC1", "ADULT", "AIRPORT")
-    assert card.src == "AIRPORT"
+    assert card.source == "AIRPORT"
 
 
     check_in("MC1", "ADULT", "CENTRAL")
@@ -79,35 +70,30 @@ def test_check_in_round_trip(new_card, station_airport , station_central):
     assert card.balance == 200
     assert station_central.discount == 100
     assert station_central.passenger_history["ADULT"] == 1
-    assert card.src is None
-
+    assert card.source is None
 
 def test_check_in_three_trips_with_round_trip(new_card, station_central ,  station_airport):
     card = new_card(mid="MC5", balance=1000)
 
 
     check_in("MC5", "ADULT", "AIRPORT")
-    assert card.src == "AIRPORT"
+    assert card.source == "AIRPORT"
     assert station_airport.total_amount == 200
     assert station_airport.passenger_history["ADULT"] == 1
-
 
     check_in("MC5", "ADULT", "CENTRAL")
 
     assert station_central.discount == 100
     assert station_central.total_amount == 100
     assert station_central.passenger_history["ADULT"] == 1
-    assert card.src is None
-
+    assert card.source is None
 
     check_in("MC5", "ADULT", "CENTRAL")
-    assert card.src == "CENTRAL"
+    assert card.source == "CENTRAL"
     assert station_central.total_amount == 300  # 100 + 200
     assert station_central.passenger_history["ADULT"] == 2
 
-
     assert card.balance == 500
-
 
 def test_summary_multiple_types(new_card):
     c1 = new_card("MC1", 300)
@@ -128,10 +114,6 @@ def test_summary_multiple_types(new_card):
     )
 
     assert result.strip() == expected.strip()
-
-
-
-
 
 def test_summary_passenger_order_sorted(new_card):
     # Arrange

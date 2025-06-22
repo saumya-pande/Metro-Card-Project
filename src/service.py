@@ -17,11 +17,11 @@ def check_in(card, type, source):
     cost = rates[type]
     station = stations[source]
     is_round_trip = False
-    if(curr_card.source == "AIRPORT" && source == "CENTRAL") || (curr_card.souce == "CENTRAL" && source == "AIRPORT"):
+    if(curr_card.source == "AIRPORT" and source == "CENTRAL") or (curr_card.souce == "CENTRAL" and source == "AIRPORT"):
         cost/=2
         is_round_trip = True
         station.update_discount(cost)
-    if(curr_card.balance < cost)
+    if(curr_card.balance < cost):
         recharge(card, cost-curr_card.balance, source)
 
     #update balance

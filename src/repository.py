@@ -1,10 +1,10 @@
-from source.Station import Station
+from src.Station import Station
 
 metroCard = dict()
 
 rates = {
     "ADULT": 200,
-    "SENIOR_CITIZEN: 100,
+    "SENIOR_CITIZEN": 100,
     "KID": 50
 }
 
