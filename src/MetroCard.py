@@ -13,8 +13,8 @@
 #             printSummary()
 
 class MetroCard:
-    def __init__(self, id, balance):
-        self.id = id
+    def __init__(self, mid, balance):
+        self.mid = mid
         self.balance = balance
         self.source = None #this is the station from where the person is travelling
 
@@ -24,3 +24,16 @@ class MetroCard:
     def update_source(self, source):
         self.source = source
 
+class Fare :
+    rates = {
+        "ADULT": 200,
+        "SENIOR_CITIZEN": 100,
+        "KID": 50
+    }
+
+    @classmethod
+    def get_fare(cls ,  type ,  is_round_trip):
+        base =  cls.rates[type]
+        if is_round_trip :
+            base /=2
+        return  base
